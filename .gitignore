@@ -1,0 +1,7 @@
+.sass-cache/
+.jekyll-metadata
+.project
+.buildpath
+.settings
+/node_modules
+.DS_Store
