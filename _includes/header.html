@@ -7,8 +7,8 @@
   </a>
   <div id='tabs'>
     <a href='/' data-mode='0'>
-    <img src="{{ site.baseurl }}/assets/img/home{% if page.id == 'home' %}_active{% endif %}.svg" class="navicon" title="home"><span class="navtext">Home</span></a>
-    <a href='{{ site.baseurl }}/instructions' data-mode='0'><img src="{{ site.baseurl }}/assets/img/about{% if page.id == 'instructions' %}_active{% endif %}.svg" class="navicon" title="Credits"><span class="navtext">Instructions</span></a>
+    <img src="{{ site.url }}/assets/img/home{% if page.id == 'home' %}_active{% endif %}.svg" class="navicon" title="home"><span class="navtext">Home</span></a>
+    <a href='{{ site.url }}/instructions' data-mode='0'><img src="{{ site.baseurl }}/assets/img/about{% if page.id == 'instructions' %}_active{% endif %}.svg" class="navicon" title="Credits"><span class="navtext">Instructions</span></a>
     <!-- <a href='/page' data-mode='0'><img src="/assets/img/page{% if page.id == 'page' %}_active{% endif %}.svg" class="navicon" title="Page"><span class="navtext">Generic Page</span></a> -->
     {% for visualization in site.data.visualizations %}
         <a href='{{ visualization.url }}' data-mode='{{ visualization.datamode }}'><img src="/assets/img/visualization{% if page.id == visualization.id %}_active{% endif %}.svg" class="navicon" title="{{ visualization.name }}"><span class="navtext">{{ visualization.name }}</span></a>
