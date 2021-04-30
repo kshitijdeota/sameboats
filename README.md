@@ -1,3 +1,3 @@
-# Sameboats - Leaflet.js implementation
+# Sameboats - Leaflet implementation
 
 Replace D3 with legendary Leaflet
