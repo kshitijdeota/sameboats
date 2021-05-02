@@ -59,11 +59,11 @@ layout: compress
       if (this.readyState == 4 && this.status == 200) {
         var myObj = JSON.parse(this.responseText);
         var StartDate = myObj["1866-01"][0].StartDate;
-        var EndStart   = myObj["1866-01"][0].EndDate;
+        var EndDate   = myObj["1866-01"][0].EndDate;
         var DateStart = document.getElementsByClassName("date-start");
         var DateEnd = document.getElementsByClassName("date-end");
         DateStart[0].innerHTML = StartDate;
-        DateEnd[0].innerHTML = StartDate;
+        DateEnd[0].innerHTML = EndDate;
       }
     };
     xmlhttp.open("GET", "../data/itineraries.json", true);
