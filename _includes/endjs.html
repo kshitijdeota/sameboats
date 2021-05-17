@@ -1,11 +1,205 @@
+<script type='text/javascript' src="{{ '/assets/js/libs/jquery-3.4.1.min.js' | relative_url }}"></script>
+<script type='text/javascript' src="{{ '/assets/js/libs/nouislider-15.1.0.js' | relative_url }}"></script>
+<script type='text/javascript' src="{{ '/assets/js/libs/wnumb-1.2.0.js' | relative_url }}"></script>
 <script type='text/javascript' src="{{ '/assets/js/libs/leaflet.js' | relative_url }}"></script>
-<script type='text/javascript' src="{{ '/assets/js/libs/leaflet.timeline.js' | relative_url }}"></script>
 {% if page.categories contains 'search' %}
   <script type='text/javascript' src="{{ '/assets/js/libs/lunr.min.js' | relative_url }}"></script>
 {% endif %}
+<script type='text/javascript' src="{{ '/assets/js/script.js' | relative_url }}"></script>
 
 {% for visualization in site.data.visualizations %}
   {% if visualization.id == page.id %}
 
   {% endif %}
 {% endfor %}
+<style>
+  #map {
+    /*height: 100vh;*/
+  }
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  html,
+  body,
+  #map {
+      height: 100%;
+      width: 100%;
+  }
+  #slider {
+    overflow: auto;
+    max-height: 80vh;
+  }
+</style>
+<script type="text/javascript">
+
+  function leapYear(year) {
+  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+var totalMonthsShown = 12;
+
+var today = new Date();
+var todayMonthIndex = today.getMonth();
+var todayYear = today.getFullYear();
+
+var monthSlider = document.getElementById('month-slider');
+
+var months = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
+
+var daysInMonths = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+var monthLabels = [];
+var monthYearLabels = [];
+var monthData = [];
+var lastDaysData = [];
+
+// Start iterator variables with today's year and month.
+var thisYear = todayYear;
+var thisMonth = todayMonthIndex;
+
+// Iterate backwards through all the months to display setting
+// the values of items on the scale
+for (i = (totalMonthsShown - 1); i >= 0; i--) {
+
+  monthYearLabels[i] = months[thisMonth] + ' ' + thisYear;
+  monthLabels[i] = months[thisMonth];
+  monthData[i] = thisYear + '-' + (thisMonth + 1);
+
+  // February then ensure leap days are considered.
+  if (thisMonth == 1 && leapYear(thisYear)) {
+    lastDaysData[i] = 29;
+  }
+  else {
+    lastDaysData[i] = daysInMonths[thisMonth];
+  }
+
+  // When month reaches January then decrement the year
+  // and set the month to December for the next iteration.
+  // For all other months then the only the month is decremented.
+  if (thisMonth == 0) {
+    thisMonth = 11;
+    thisYear--;
+  }
+  else {
+    thisMonth--;
+  }
+
+}
+
+var range = {
+  'min': 0,
+  'max': totalMonthsShown -1
+}
+
+noUiSlider.create(monthSlider, {
+  start: [totalMonthsShown -1, totalMonthsShown -1],
+  step: 1,
+  range: range,
+  tooltips: true,
+  connect: true,
+  animate: true,
+  animationDuration: 600,
+  pips: {
+    mode: 'steps',
+    density: totalMonthsShown -1,
+    // Force major pips for value.
+    filter: function() {
+      return 1;
+    }
+  }
+});
+
+// Remove the shortcut active class when manually setting a range.
+monthSlider.noUiSlider.on('start', function() {
+  $('.shortcuts li').removeClass('active');
+});
+
+monthSlider.noUiSlider.on('update', function(values, handle) {
+
+  var monthIndex = parseInt(values[handle]);
+
+  var prefixes = ['From', 'To'];
+
+  if (handle == 0) {
+    var day = 1;
+  }
+  else if (handle == 1) {
+    var day = lastDaysData[monthIndex];
+  }
+
+  // Set the tooltip values.
+  $('.noUi-handle[data-handle="' + handle + '"]').find('.noUi-tooltip').html(prefixes[handle] + '<br /><strong>' + day + ' ' + monthYearLabels[monthIndex] + '</strong>');
+
+  // Update the pips values.
+
+  $('.noUi-pips .noUi-value').each(function() {
+    var index = $(this).html();
+    $(this).html(monthLabels[index]);
+  });
+
+  // Update the input elements.
+  var minValueIndex = parseInt(values[0]);
+  var maxValueIndex = parseInt(values[1]);
+  $('input[name="month-range-min"]').val(monthData[minValueIndex]);
+  $('input[name="month-range-max"]').val(monthData[maxValueIndex]);
+
+});
+
+$('.month-slider-wrapper .shortcuts li').mousedown(function() {
+  var monthPeriod = $(this).attr('data-min-range');
+
+  var newValues = [
+    (totalMonthsShown - monthPeriod),
+    (totalMonthsShown -1)
+  ];
+
+  monthSlider.noUiSlider.set(newValues);
+
+  $('.shortcuts li').removeClass('active');
+  $(this).addClass('active');
+
+});
+
+
+
+
+
+
+  var map = L.map('map').setView([51.505, -0.09], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+  // L.marker([51.5, -0.09]).addTo(map)
+  //     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+  //     .openPopup();
+
+  // L.circle([51.5, -0.09], {radius: 500, color: "coral", fillOpacity: 0.5}).addTo(map);
+
+  // var xmlhttp = new XMLHttpRequest();
+  // xmlhttp.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //     var myObj = JSON.parse(this.responseText);
+  //     var StartDate = myObj["1866-01"][0].StartDate;
+  //     var EndDate   = myObj["1866-01"][0].EndDate;
+  //     var DateStart = document.getElementsByClassName("date-start");
+  //     var DateEnd = document.getElementsByClassName("date-end");
+  //     DateStart[0].innerHTML = StartDate;
+  //     DateEnd[0].innerHTML = EndDate;
+  //   }
+  // };
+  // xmlhttp.open("GET", "../data/itineraries.json", true);
+  // xmlhttp.send();
+
+
+
+
+
+
+
+</script>

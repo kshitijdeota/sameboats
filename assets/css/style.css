@@ -1371,10 +1371,16 @@ path.line {
   height: 90%;
   margin: 0;
   padding: 0;
+  overflow: auto;
 }
 
 .date-selector svg {
   width: 100%;
+}
+
+#slider-date {
+  margin-top: 20px;
+  margin-left: 50%;
 }
 
 /* Map */

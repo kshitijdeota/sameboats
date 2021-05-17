@@ -1,7 +1,7 @@
 ---
 layout: compress
 ---
-<html lang="{{ page.lang | default: site.lang | default: "en_US" }}">
+<html lang="{{ page.lang | default: site.lang | default: 'en_US' }}">
 
   {% include head.html %}
   {% if page.categories contains 'visualization' %}
@@ -17,9 +17,9 @@ layout: compress
             <div class='header'>Select Range</div>
             <div class='date-selector'>
               <div class='indicator'>
-                <span class='date-start'></span> – <span class='date-end'></span>
+                <span id='date-start'></span> – <span id='date-end'></span>
               </div>
-              <div class='slider'></div>
+              <div id='slider-date'></div>
             </div>
           </div>
           <div class='authors'>
@@ -35,41 +35,5 @@ layout: compress
 	</div>
   {% include footer.html %}
   {% include endjs.html %}
-  <style>
-    #map {
-      height: 100vh;
-    }
-  </style>
-  <script type="text/javascript">
-
-    var map = L.map('map').setView([51.505, -0.09], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    L.marker([51.5, -0.09]).addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
-
-    L.circle([51.5, -0.09], {radius: 500, color: "coral", fillOpacity: 0.5}).addTo(map);
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var myObj = JSON.parse(this.responseText);
-        var StartDate = myObj["1866-01"][0].StartDate;
-        var EndDate   = myObj["1866-01"][0].EndDate;
-        var DateStart = document.getElementsByClassName("date-start");
-        var DateEnd = document.getElementsByClassName("date-end");
-        DateStart[0].innerHTML = StartDate;
-        DateEnd[0].innerHTML = EndDate;
-      }
-    };
-    xmlhttp.open("GET", "../data/itineraries.json", true);
-    xmlhttp.send();
-
-
-  </script>
   </body>
 </html>
