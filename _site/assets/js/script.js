@@ -19,10 +19,8 @@ var years      = ["1890-01", "1890-02", "1890-03", "1890-04", "1890-05", "1890-0
                   "1908-01", "1908-02", "1908-03", "1908-04", "1908-05", "1908-06", "1908-07", "1908-08", "1908-09", "1908-10", "1908-11", "1908-12",
                   "1909-01", "1909-02", "1909-03", "1909-04", "1909-05", "1909-06", "1909-07", "1909-08", "1909-09", "1909-10", "1909-11", "1909-12",
                   "1910-01", "1910-02", "1910-03", "1910-04", "1910-05", "1910-06", "1910-07", "1910-08", "1910-09", "1910-10", "1910-11", "1910-12"]
-var weekdays   = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var months     = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 var dateSlider = document.getElementById('slider-date');
-
 
 // Create a string representation of the date.
 var d = "1910-03";
@@ -36,27 +34,33 @@ function timestamp(str) {
 }
 
 var range_all_sliders = {
-    'min': [     0 ],
-    '10%': [   500,  500 ],
-    '50%': [  4000, 1000 ],
+    'min': [ 0 ],
     'max': [ 251 ]
 };
 
+var pips_values = [0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168, 180, 192, 204, 216, 228, 240];
+
 noUiSlider.create(dateSlider, {
 
-    range: {
-        min: 0,
-        max: 251
-    },
+    range: range_all_sliders,
     step: 0.2,
-    start: [50, 139],
+    start: [12, 96],
     orientation: "vertical",
     connect: true,
     pips: {
-        mode: 'range',
-        values: ["1890", "1891", "1892", "1893", "1894", "1895", "1896", "1897", "1898", "1899", "1900", "1901", "1902", "1903", "1904", "1905", "1906", "1907", "1908", "1909", "1910"],
-        density: 1,
-        stepped: true
+        mode: 'values',
+        values: pips_values,
+        density: 4.5,
+        stepped: true,
+        format: wNumb({
+            decimals: 0,
+            edit: function( value ) {
+                value = years[Math.round(value)];
+                date = new Date( value );
+                return date.getFullYear(); }
+                // value = formatDate(new Date(years[Math.round(value)]));
+                // return value; }
+        })
     },
     format: wNumb({
         decimals: 0

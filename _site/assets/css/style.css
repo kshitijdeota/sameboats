@@ -1578,4 +1578,50 @@ path.line {
   color: #000000;
 }
 
+
+/* - NOUI-SLIDER CSS OVERRIDES - KSHITIJ DEOTA - */
+
+#slider-date {
+    margin : 20px 33%;
+    height :  80vh;
+}
+
+.noUi-tooltip { display: none; }
+
+.noUi-active .noUi-tooltip { display: none; }
+
+.noUi-vertical { width: 2px; }
+
+.noUi-target {
+    background: #CCC;
+    border: none;
+    box-shadow: none;
+}
+
+.noUi-handle {
+    background: #3FB8AF;
+    border-radius: 50px;
+    box-shadow: none;
+    border: none;
+    cursor: ns-resize;
+}
+
+.noUi-handle:hover,
+.noUi-handle:active {
+    box-shadow:
+        inset 0 0 1px #888,
+        0 3px 6px -3px #000;
+}
+
+.noUi-vertical .noUi-handle {
+    width: 22px;
+    height: 22px;
+    right: -10px;
+    top: -12px;
+    outline: none;
+}
+
+.noUi-vertical .noUi-handle:before,
+.noUi-vertical .noUi-handle:after { display: none; }
+
 /*# sourceMappingURL=maps/style.css.map */
