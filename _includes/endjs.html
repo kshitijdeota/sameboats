@@ -7,37 +7,3 @@
 <script type='text/javascript' src="{{ '/assets/js/libs/lunr.min.js' | relative_url }}"></script>
 {% endif %}
 <script type='text/javascript' src="{{ '/assets/js/script.js' | relative_url }}"></script>
-<style> #map { height: 100vh; } </style>
-<script type="text/javascript">
-    var latlngs = [5.3599517,-4.0082563];
-    var latlng1 = [5.3599517,-4.0082563],
-        latlng2 = [18.2278534,-77.7509303];
-    var offsetX = latlng2[1] - latlng1[1],
-        offsetY = latlng2[0] - latlng1[0];
-    var r = Math.sqrt( Math.pow(offsetX, 2) + Math.pow(offsetY, 2) ),
-        theta = Math.atan2(offsetY, offsetX);
-    var thetaOffset = (3.14/10);
-    var r2 = (r/2)/(Math.cos(thetaOffset)),
-        theta2 = theta + thetaOffset;
-    var midpointX = (r2 * Math.cos(theta2)) + latlng1[1],
-        midpointY = (r2 * Math.sin(theta2)) + latlng1[0];
-    var midpointLatLng = [midpointY, midpointX];
-
-    latlngs.push(latlng1, midpointLatLng, latlng2);
-
-    var pathOptions = {
-        color: 'rgba(255,255,255,0.5)',
-        weight: 2
-    };
-    var map = L.map('map', {
-        renderer: L.canvas()
-    });
-
-    var curvedPath = L.curve(
-        [
-            'M', latlng1,
-            'Q', midpointLatLng,
-                 latlng2
-        ], pathOptions).addTo(map);
-    console.log(curvedPath);
-</script>

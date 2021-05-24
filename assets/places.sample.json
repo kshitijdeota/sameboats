@@ -1,0 +1,88 @@
+{
+	"routes": [
+		{
+			"title": "Global Pathways (2016-Present)",
+			"places": [
+				"boston",
+				"medellin"
+			]
+		},
+		{
+			"title": "Global Pathways Boulder (2017-Present)",
+			"places": [
+				"boulder",
+				"medellin"
+			]
+		},
+		{
+			"title": "Proyecto Carrito (2014)",
+			"places": [
+				"boston",
+				"indianapolis"
+			]
+		},
+		{
+			"title": "Proyecto Carrito Caravan (2016)",
+			"places": [
+				"boston",
+				"chicago",
+				"boulder",
+				"los_angeles",
+				"san_diego",
+				"louisville"
+			]
+		},
+		{
+			"title": "Emerson LA (2011-2015)",
+			"places": [
+				"boston",
+				"los_angeles"
+			]
+		},
+		{
+			"title": "Through Our Eyes III (2013)",
+			"places": [
+				"durham",
+				"medellin",
+				"boston"
+			]
+		},
+		{
+			"title": "Through Our Eyes IV (2015)",
+			"places": [
+				"medellin",
+				"los_angeles",
+				"honolulu",
+				"boston",
+				"durham"
+			]
+		},
+		{
+			"title": "DukeEngage (2012-2015)",
+			"places": [
+				"medellin",
+				"durham"
+			]
+		},
+		{
+			"title": "Informal Settlements (In Development)",
+			"places": [
+				"honolulu",
+				"medellin"
+			]
+		}
+	],
+
+	"coords": {
+		"boston": [42.358056, -71.063611],
+		"medellin": [6.230833, -75.590556],
+		"indianapolis": [39.791, -86.148],
+		"chicago": [41.836944, -87.684722],
+		"boulder": [40.027435, -105.251945],
+		"los_angeles": [34.05, -118.25],
+		"san_diego": [32.715, -117.1625],
+		"louisville": [38.225333, -85.741667],
+		"durham": [35.988611, -78.907222],
+		"honolulu": [21.3, -157.816667]
+	}
+}

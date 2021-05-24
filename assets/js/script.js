@@ -108,3 +108,111 @@ $.getJSON("../data/author_ids.json", function(data){
 }).fail(function() {
     console.log("An error has occurred.");
 });
+
+
+
+
+
+
+$(function() {
+
+    var breakpoint = 800;
+    var allTags = [];
+
+    setupMap();
+
+    function setupMap() {
+
+        var map = L.map('map', {
+            center: [34.05, -118.25],
+            zoom: 4,
+            scrollWheelZoom: false,
+            tap: false,
+            attributionControl: false,
+            zoomControl: false
+        });
+
+        var tileLayer = "https://api.mapbox.com/styles/v1/ryancatalani/cj06uv42g005b2rpowaeeefk8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlhbmNhdGFsYW5pIiwiYSI6ImI3N2Y1NTgzMmI1OWQ2MTE4ZDYyZTUwN2NkNGU2ZmVhIn0.M5NBs28T4Is7-6apSUwCCw";
+        L.tileLayer(tileLayer).addTo(map);
+
+        var routes, coords;
+        $.getJSON('../assets/places.sample.json', function(data) {
+            routes = data.routes;
+            coords = data.coords;
+
+            routes.forEach(function(route){
+                setupRoute(route);
+            });
+
+            var bounds = [];
+            for (var coord in coords) {
+                bounds.push(coords[coord]);
+            }
+            map.fitBounds(bounds);
+            $(window).resize(function() { map.fitBounds(bounds) });
+        });
+
+
+        function setupRoute(route) {
+
+            var places = route.places;
+            var latlngs = [];
+            for (var i = 0; i < places.length; i++) {
+
+                if (i+1 < places.length) {
+
+                    var pname1 = places[i],
+                        latlng1 = coords[pname1],
+                        pname2 = places[i+1],
+                        latlng2 = coords[pname2];
+
+                    var offsetX = latlng2[1] - latlng1[1],
+                        offsetY = latlng2[0] - latlng1[0];
+
+                    var r = Math.sqrt( Math.pow(offsetX, 2) + Math.pow(offsetY, 2) ),
+                        theta = Math.atan2(offsetY, offsetX);
+
+                    var thetaMin = (3.14/12),
+                        thetaMax = (3.14/8),
+                        thetaOffset = Math.random() * (thetaMax - thetaMin) + thetaMin;
+
+                    var r2 = (r/2)/(Math.cos(thetaOffset)),
+                        theta2 = theta + thetaOffset;
+
+                    var midpointX = (r2 * Math.cos(theta2)) + latlng1[1],
+                        midpointY = (r2 * Math.sin(theta2)) + latlng1[0];
+
+                    var midpointLatLng = [midpointY, midpointX];
+
+                    latlngs.push(latlng1, midpointLatLng, latlng2);
+
+                    var pathOptions = {
+                        color: 'rgba(255,255,255,0.5)',
+                        weight: 2
+                    }
+
+                    // if (typeof document.getElementById('map').animate === "function") {
+                    //     var durationBase = 2000;
+                    //     var duration = Math.sqrt(Math.log(r)) * durationBase;
+                    //     pathOptions.animate = {
+                    //         duration: duration,
+                    //         iterations: Infinity,
+                    //         easing: 'ease-in-out',
+                    //         direction: 'alternate'
+                    //     }
+                    // }
+
+                    var curvedPath = L.curve(
+                        [
+                            'M', latlng1,
+                            'Q', midpointLatLng,
+                                 latlng2
+                        ], pathOptions).addTo(map);
+
+                }
+            };
+
+        }
+
+    }
+});

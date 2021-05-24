@@ -1626,3 +1626,5 @@ path.line {
 .noUi-vertical .noUi-handle:after { display: none; }
 
 /*# sourceMappingURL=maps/style.css.map */
+
+#map { height: 100vh; }
