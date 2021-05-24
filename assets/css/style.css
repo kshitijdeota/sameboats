@@ -1627,4 +1627,6 @@ path.line {
 
 /*# sourceMappingURL=maps/style.css.map */
 
-#map { height: 100vh; }
+#map {
+  height: 100vh;
+}

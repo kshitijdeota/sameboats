@@ -125,15 +125,16 @@ $(function() {
 
         var map = L.map('map', {
             center: [34.05, -118.25],
-            zoom: 4,
+            zoom: 7,
             scrollWheelZoom: false,
             tap: false,
             attributionControl: false,
             zoomControl: false
         });
 
-        var tileLayer = "https://api.mapbox.com/styles/v1/ryancatalani/cj06uv42g005b2rpowaeeefk8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlhbmNhdGFsYW5pIiwiYSI6ImI3N2Y1NTgzMmI1OWQ2MTE4ZDYyZTUwN2NkNGU2ZmVhIn0.M5NBs28T4Is7-6apSUwCCw";
-        L.tileLayer(tileLayer).addTo(map);
+        var tileLayer = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+        var attribution = "attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'";
+        L.tileLayer(tileLayer, {attribution}).addTo(map);
 
         var routes, coords;
         $.getJSON('../assets/places.sample.json', function(data) {
@@ -187,7 +188,7 @@ $(function() {
                     latlngs.push(latlng1, midpointLatLng, latlng2);
 
                     var pathOptions = {
-                        color: 'rgba(255,255,255,0.5)',
+                        color: 'rgba(80,80,80,0.5)',
                         weight: 2
                     }
 
