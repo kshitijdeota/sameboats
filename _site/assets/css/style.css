@@ -1584,6 +1584,7 @@ path.line {
 #slider-date {
     margin : 20px 33%;
     height :  80vh;
+    font-size:  12px;
 }
 
 .noUi-tooltip { display: none; }

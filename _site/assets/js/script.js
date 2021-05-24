@@ -58,8 +58,6 @@ noUiSlider.create(dateSlider, {
                 value = years[Math.round(value)];
                 date = new Date( value );
                 return date.getFullYear(); }
-                // value = formatDate(new Date(years[Math.round(value)]));
-                // return value; }
         })
     },
     format: wNumb({
@@ -90,4 +88,23 @@ var dateValues = [
 dateSlider.noUiSlider.on('update', function (values, handle) {
 
     dateValues[handle].innerHTML = formatDate(new Date(years[values[handle]]));
+});
+
+
+// AUTHOR IDs
+
+$.getJSON("../data/author_ids.json", function(data){
+
+    var i=0;
+    for( var key in data ) {
+
+        var AuthorName = (data[key]);
+        var AuthorKey = (Object.keys(data)[i]);
+
+        $("#authors-list").append("<a data-key='" + AuthorKey + "' class='author a-" + i + "'>" + AuthorName + "</a>");
+
+        i++;
+    }
+}).fail(function() {
+    console.log("An error has occurred.");
 });
