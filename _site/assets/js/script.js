@@ -91,9 +91,50 @@ dateSlider.noUiSlider.on('update', function (values, handle) {
 });
 
 
+
+
+
+
+function removeEmpty(obj) {
+  Object.keys(obj).forEach(function(key) {
+    (obj[key] && typeof obj[key] === 'object') && removeEmpty(obj[key]) ||
+    (obj[key] === '' || obj[key] === null) && delete obj[key]
+  });
+  return obj;
+};
+;
+
+
+$(document).ready(function(){
+    $.getJSON("../data/itineraries.json", function (data) {
+
+        var arrItems = [];
+
+        $.each(data, function (index, value) {
+            
+            arrItems.push(value);
+        });
+
+        function stripUndefined (arr) {
+
+            return arr.reduce(function (result, item) {
+
+                result.push( Array.isArray(item) && !item.length ? stripUndefined(item) : item );
+                return result;
+            }, []);
+        }
+
+        console.log(data);
+
+    }).fail(function(){
+
+        console.log("An error has occurred.");
+    });
+});
+
 // AUTHOR IDs
 
-$.getJSON("../data/author_ids.json", function(data){
+$.getJSON("../data/author_ids.json", function(data) {
 
     var i=0;
     for( var key in data ) {
@@ -113,6 +154,14 @@ $.getJSON("../data/author_ids.json", function(data){
 
 
 
+
+
+
+
+
+
+
+// DRAW THE MAP
 
 $(function() {
 
